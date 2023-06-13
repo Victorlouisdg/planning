@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<robot name="ur5e">
+    <!--  <link name="world"/>-->
+    <!--  <joint name="world_fixed_joint" type="fixed">-->
+    <!--    <origin xyz="0 0 0" rpy="0 -0 0"/>-->
+    <!--    <parent link="world"/>-->
+    <!--    <child link="base_link"/>-->
+    <!--  </joint>-->
+    <link name="base_link">
+        <inertial>
+            <mass value="0"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+    </link>
+    <joint name="base_link-base_link_inertia" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 3.141592653589793"/>
+        <parent link="base_link"/>
+        <child link="base_link_inertia"/>
+    </joint>
+    <link name="base_link_inertia">
+        <inertial>
+            <mass value="4"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0.00443333156" ixy="0" ixz="0" iyy="0.00443333156" iyz="0" izz="0.0072"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="base.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-1.014396548271179e-5 1.4681369066238405e-5 0.04954930824853321" rpy="0 -0 3.141592653589793"/>
+            <geometry>
+                <box size="0.1509777531027794 0.15098757296800613 0.09909880791470727"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="shoulder_pan_joint" type="revolute">
+        <origin xyz="0 0 0.1625" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="base_link_inertia"/>
+        <child link="shoulder_link"/>
+        <limit drake:acceleration="2.5" effort="330.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="shoulder_link">
+        <inertial>
+            <mass value="3.7"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0.010267495893" ixy="0" ixz="0" iyy="0.010267495893" iyz="0" izz="0.00666"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 3.141592653589793" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="shoulder.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-4.6528875827798065e-6 -0.007148757576942444 0.003823366016149521"
+                    rpy="0 -0 3.141592653589793"/>
+            <geometry>
+                <box size="0.12018647789955139 0.13450276851654053 0.13544929772615433"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="shoulder_lift_joint" type="revolute">
+        <origin xyz="0 0 0" rpy="1.570796327 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="shoulder_link"/>
+        <child link="upper_arm_link"/>
+        <limit drake:acceleration="2.5" effort="330.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="upper_arm_link">
+        <inertial>
+            <mass value="8.393"/>
+            <origin xyz="-0.2125 0 0.138" rpy="0 -0 0"/>
+            <inertia ixx="0.015107399999999993" ixy="0" ixz="0" iyy="0.13388578186233246" iyz="0"
+                     izz="0.13388578186233246"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.138"/>
+            <geometry>
+                <mesh filename="upperarm.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.21199514530599117 1.55903398989333e-6 0.13503268706798555"
+                    rpy="1.5707963267948966 -0 -1.5707963267948966"/>
+            <geometry>
+                <box size="0.12018701061606407 0.1496717631816864 0.5451929159462452"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="elbow_joint" type="revolute">
+        <origin xyz="-0.425 0 0" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="upper_arm_link"/>
+        <child link="forearm_link"/>
+        <limit drake:acceleration="2.5" effort="150.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="forearm_link">
+        <inertial>
+            <mass value="2.275"/>
+            <origin xyz="-0.1961 0 0.006999999999999999" rpy="0 -0 0"/>
+            <inertia ixx="0.004095" ixy="0" ixz="-1.734723475976807e-18" iyy="0.03120935509958629" iyz="0"
+                     izz="0.03120935509958629"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.007"/>
+            <geometry>
+                <mesh filename="forearm.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.020 0 0.00549582" rpy="1.5707963267948966 -0 -1.5707963267948966"/>
+            <geometry>
+                <box size="0.10 0.11 0.1378"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="-0.38635759316384792 0.0 0.0054958246350288505"
+                    rpy="1.5707963267948966 -0 -1.5707963267948966"/>
+            <geometry>
+                <sphere radius="0.06"/>
+            </geometry>
+        </collision>
+        <collision>
+            <origin xyz="-0.18635759316384792 -1.2144260108472058e-4 0.0054958246350288505"
+                    rpy="1.5707963267948966 -0 -1.5707963267948966"/>
+            <geometry>
+                <cylinder radius="0.045" length="0.45"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wrist_1_joint" type="revolute">
+        <origin xyz="-0.3922 0 0.1333" rpy="0 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="forearm_link"/>
+        <child link="wrist_1_link"/>
+        <limit drake:acceleration="2.5" effort="54.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="wrist_1_link">
+        <inertial>
+            <mass value="1.219"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0.0025598989760400002" ixy="0" ixz="0" iyy="0.0025598989760400002" iyz="0" izz="0.0021942"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.127"/>
+            <geometry>
+                <mesh filename="wrist1.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="7.312744855880737e-6 0.001354340463876731 -0.017466099604964258"
+                    rpy="1.5707963267948966 -0 0"/>
+            <geometry>
+                <box size="0.07870106399059296 0.11216927692294121 0.10988196730613708"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wrist_2_joint" type="revolute">
+        <origin xyz="0 -0.0997 -2.044881182297852e-11" rpy="1.570796327 -0 0"/>
+        <axis xyz="0 0 1"/>
+        <parent link="wrist_1_link"/>
+        <child link="wrist_2_link"/>
+        <limit drake:acceleration="2.5" effort="54.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="wrist_2_link">
+        <inertial>
+            <mass value="1.219"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0.0025598989760400002" ixy="0" ixz="0" iyy="0.0025598989760400002" iyz="0" izz="0.0021942"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 -0.0997"/>
+            <geometry>
+                <mesh filename="wrist2.dae"/>
+            </geometry>
+            <material name="LightGrey">
+                <color rgba="0.7 0.7 0.7 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="1.8905848264694214e-6 -0.0017946325242519379 -0.003504972767829892" rpy="0 -0 0"/>
+            <geometry>
+                <box size="0.07869848981499672 0.10988454520702362 0.08521676063537598"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="wrist_3_joint" type="revolute">
+        <origin xyz="0 0.0996 -2.042830148012698e-11"
+                rpy="-1.5707963270000003 1.2246467991473532e-16 -1.2246467991473532e-16"/>
+        <axis xyz="-6.799676563005226e-33 0 1"/>
+        <parent link="wrist_2_link"/>
+        <child link="wrist_3_link"/>
+        <limit lower="-6.283185307179586" upper="6.283185307179586" effort="1e+9" velocity="1e+9"/>
+        <limit drake:acceleration="2.5" effort="54.0" lower="-6.283185307179586" upper="6.283185307179586"
+               velocity="3.14"/>
+        <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <link name="wrist_3_link">
+        <inertial>
+            <mass value="0.1879"/>
+            <origin xyz="0 0 -0.0229" rpy="0 -0 0"/>
+            <inertia ixx="9.890410052167731e-5" ixy="0" ixz="0" iyy="9.890410052167731e-5" iyz="0"
+                     izz="1.321171875e-4"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.0989"/>
+            <geometry>
+                <mesh filename="wrist3.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="7.379613816738129e-5 -0.0027399212121963453 -0.022847617411613466"
+                    rpy="1.5707963267948966 -0 0"/>
+            <geometry>
+                <box size="0.070510577514767647 0.04581412672996521 0.076155416697263718"/>
+            </geometry>
+        </collision>
+    </link>
+    <!--    Transmission tags are ignored I think -->
+    <transmission name="shoulder_pan_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="shoulder_pan_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="shoulder_pan_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="shoulder_lift_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="shoulder_lift_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="shoulder_lift_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="elbow_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="elbow_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="elbow_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="wrist_1_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_1_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_1_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="wrist_2_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_2_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_2_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="wrist_3_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="wrist_3_joint">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="wrist_3_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <!--    -->
+    <joint name="wrist_3-flange" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -1.5707963267948966 -1.5707963267948966"/>
+        <parent link="wrist_3_link"/>
+        <child link="flange"/>
+    </joint>
+    <link name="flange">
+        <inertial>
+            <mass value="0"/>
+            <origin xyz="0 0 0" rpy="0 -0 0"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+    </link>
+    <link name="base"/>
+    <joint name="base_fixed_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 -0 3.141592653589793"/>
+        <parent link="base_link"/>
+        <child link="base"/>
+    </joint>
+    <link name="ft_frame"/>
+    <joint name="ft_frame_fixed_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="3.141592653589793 -0 0"/>
+        <parent link="wrist_3_link"/>
+        <child link="ft_frame"/>
+    </joint>
+    <link name="tool0"/>
+    <joint name="tool0_fixed_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="1.5707963267948966 -0 1.5707963267948966"/>
+        <parent link="flange"/>
+        <child link="tool0"/>
+    </joint>
+    <!--    Collision tuning -->
+    <drake:collision_filter_group name="upperarm_base">
+        <drake:member link="upper_arm_link"/>
+        <drake:member link="base_link_inertia"/>
+        <drake:ignored_collision_filter_group name="upperarm_base"/>
+    </drake:collision_filter_group>
+    <drake:collision_filter_group name="wrist_forearm">
+        <drake:member link="wrist_1_link"/>
+        <drake:member link="forearm_link"/>
+        <drake:ignored_collision_filter_group name="wrist_forearm"/>
+    </drake:collision_filter_group>
+    <drake:collision_filter_group name="wrist1_wrist3">
+        <drake:member link="wrist_3_link"/>
+        <drake:member link="wrist_1_link"/>
+        <drake:ignored_collision_filter_group name="wrist1_wrist3"/>
+    </drake:collision_filter_group>
+</robot>
